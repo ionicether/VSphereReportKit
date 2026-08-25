@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+    PowerShell falls back to Format-List once an object has more than four properties,
+    and four of these five reports do. Without these views, piping a snapshot report to
+    the screen gives you a ten-line block per row instead of a table.
+
+    TypeName matches the PSTypeName set on each PSCustomObject. Loaded via
+    FormatsToProcess in the manifest; when dot-sourcing during development, run
+    Update-FormatData -PrependPath on this file instead.
+
+    Only a subset of properties is shown. The objects still carry everything - pipe to
+    Format-List, Select-Object * or Export-Csv to see the rest.
+-->
+<Configuration>
+  <ViewDefinitions>
+
+    <View>
+      <Name>VSphereReportKit.VMInventory</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.VMInventory</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Name</Label><Width>28</Width></TableColumnHeader>
+          <TableColumnHeader><Label>PowerState</Label><Width>11</Width></TableColumnHeader>
+          <TableColumnHeader><Label>HW</Label><Width>8</Width></TableColumnHeader>
+          <TableColumnHeader><Label>ToolsStatus</Label><Width>24</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Domain</Label><Width>22</Width></TableColumnHeader>
+          <TableColumnHeader><Label>OS</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>PowerState</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>HardwareVersion</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ToolsStatus</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Domain</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>OS</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.VMToolsStatus</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.VMToolsStatus</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Name</Label><Width>28</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Action</Label><Width>8</Width></TableColumnHeader>
+          <TableColumnHeader><Label>PowerState</Label><Width>11</Width></TableColumnHeader>
+          <TableColumnHeader><Label>ToolsStatus</Label><Width>24</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Version</Label><Width>8</Width><Alignment>Right</Alignment></TableColumnHeader>
+          <TableColumnHeader><Label>OS</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Name</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Action</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>PowerState</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ToolsStatus</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>ToolsVersion</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>OS</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.VMRemovalEvent</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.VMRemovalEvent</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Time</Label><Width>20</Width></TableColumnHeader>
+          <TableColumnHeader><Label>EventType</Label><Width>18</Width></TableColumnHeader>
+          <TableColumnHeader><Label>User</Label><Width>24</Width></TableColumnHeader>
+          <TableColumnHeader><Label>VM</Label><Width>28</Width></TableColumnHeader>
+          <TableColumnHeader><Label>VMHost</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>if ($null -eq $_.Time) { '' } else { '{0:yyyy-MM-dd HH:mm:ss}' -f $_.Time }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem><PropertyName>EventType</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>User</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>VM</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>VMHost</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.VMSnapshot</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.VMSnapshot</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>VM</Label><Width>26</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Snapshot</Label><Width>26</Width></TableColumnHeader>
+          <TableColumnHeader><Label>AgeDays</Label><Width>8</Width><Alignment>Right</Alignment></TableColumnHeader>
+          <TableColumnHeader><Label>SizeGB</Label><Width>8</Width><Alignment>Right</Alignment></TableColumnHeader>
+          <TableColumnHeader><Label>Created</Label><Width>20</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Consol</Label><Width>7</Width></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>VM</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Snapshot</PropertyName></TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>if ($null -eq $_.AgeDays) { '' } else { '{0:N1}' -f $_.AgeDays }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>if ($null -eq $_.SizeGB) { '' } else { '{0:N2}' -f $_.SizeGB }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>if ($null -eq $_.CreatedOn) { '' } else { '{0:yyyy-MM-dd HH:mm:ss}' -f $_.CreatedOn }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem><PropertyName>Consolidate</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.HostCompliance</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.HostCompliance</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>Entity</Label><Width>30</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Status</Label><Width>16</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Source</Label><Width>16</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Target</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>Entity</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Status</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Source</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Target</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.SnapshotRemoval</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.SnapshotRemoval</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>VM</Label><Width>28</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Snapshot</Label><Width>26</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Result</Label><Width>10</Width></TableColumnHeader>
+          <TableColumnHeader><Label>SizeGB</Label><Width>8</Width><Alignment>Right</Alignment></TableColumnHeader>
+          <TableColumnHeader><Label>Message</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>VM</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Snapshot</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Result</PropertyName></TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>if ($null -eq $_.SizeGB) { '' } else { '{0:N2}' -f $_.SizeGB }</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem><PropertyName>Message</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+    <View>
+      <Name>VSphereReportKit.Consolidation</Name>
+      <ViewSelectedBy>
+        <TypeName>VSphereReportKit.Consolidation</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader><Label>VM</Label><Width>30</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Result</Label><Width>12</Width></TableColumnHeader>
+          <TableColumnHeader><Label>Message</Label></TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem><PropertyName>VM</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Result</PropertyName></TableColumnItem>
+              <TableColumnItem><PropertyName>Message</PropertyName></TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+
+  </ViewDefinitions>
+</Configuration>
