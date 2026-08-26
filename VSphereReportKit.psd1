@@ -3,11 +3,7 @@
     ModuleVersion     = '1.0.0'
     GUID              = 'd4f8a61c-3b27-4e95-9c0a-7e1f6b2d84a3'
 
-    # Fill these in before this goes anywhere shared.
-    Author            = 'TODO'
-    CompanyName       = 'TODO'
-    Copyright         = 'TODO'
-
+    Author            = 'Ian Garner Morley'
     Description       = 'vCenter reporting: VM inventory, VMware Tools status, removal events, snapshot age and size, and ESXi patch compliance. The Get-* commands emit objects with no formatting; Invoke-VSphereReport adds a terminal menu over them. Remove-OldVMSnapshot is the one command that writes, and supports -WhatIf and -Confirm.'
 
     PowerShellVersion    = '5.1'

@@ -1,6 +1,6 @@
 # VSphereReportKit
 
-Read-only reporting over a VMware vCenter connection: five commands, plus a terminal menu
+(Almost) read-only reporting over a VMware vCenter connection: five commands, plus a terminal menu
 if you would rather not remember the parameters.
 
 Most reporting tools tell you what they found. Very few tell you what they could not see.
